@@ -1,0 +1,171 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      Stata 18.0
+___/   /   /___/   /   /___/       SE—Standard Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Single-user  perpetual
+Serial number: 401806419636
+  Licensed to: ifmruser
+               jpal
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do "c:\Users\Meghana Bommi Reddy\Documents\research\ai_transcription\code\odi
+> sha\00_preamble.do" 
+
+. * preamble
+. clear all
+
+. set varabbrev off
+
+. macro drop _all
+
+. set more off
+
+. pause on
+
+. set excelxlsxlargefile on
+
+. 
+. global packages_install = 0
+
+. global packages_update = 0
+
+. 
+. * install Stata packages
+. if $packages_install {
+.         foreach package in /// colrspace ///
+>                 confirmdir ///
+>                 distinct ///
+>                 grstyle ///
+>                 gtools ///
+>                 palettes /// for grstyle
+>                 colrspsace /// for grstyle
+>                 mipolate ///
+>                 reghdfe ///
+>                 estout /// 
+>                 ftools /// needed for reghdfe
+>                 coefplot ///
+>                 freqindex /// required for matchit
+>                 grc1leg2 /// graph combine with common legend
+>                 ///sepscatter ///
+>                 ///dseg /// egenmore ///
+>                 ///frameappend ///
+>                 ///freduse ///
+>                 ///grouplabs ///
+>                 ///labvalch3 ///
+>                 ///mat2txt ///
+>                 {
+  2.                 cap which `package'
+  3.                 if _rc ssc install `package', all replace
+  4.         }
+.         cap which renvars
+.         if _rc {
+.                 net install dm88_1, from ("http://www.stata-journal.com/softw
+> are/sj5-4")
+.                 cap n net get dm88_1
+.                 cap n net install dm88_1
+.         }
+.         cap which grc1leg2
+.         if _rc {
+.                 net install grc1leg2.pkg, from (http://digital.cgdev.org/doc/
+> stata/MO/Misc/)
+.         }
+. }
+
+. 
+. if $packages_update {
+.         cap n gtools, upgrade
+.         cap n adoupdate, update
+. }
+
+. 
+. * define directories
+. global root = ""
+
+. foreach dir in ///
+>         "/Users/kotia/Dropbox/Research" /// KOTIA MAC 
+>         "/Users/nailafatima/Library/CloudStorage/Dropbox" /// NAILA'S MAC
+>         "C:/Users/Nutan Satpathy/Dropbox" /// NUTAN'S
+>         "C:/Users/bhara/Dropbox" /// Bharat
+>         "C:/Users/Meghana Bommi Reddy/Dropbox" /// Meghana 
+>         {
+  2.         confirmdir "`dir'"
+  3.         if !_rc global root = "`dir'"
+  4. }
+
+. if "${root}" == "" {
+.         di as error "USER ERROR: Cannot find main directory (\$root)!"
+.         error 1
+. }
+
+. 
+. else if "${root}" == "/Users/nailafatima/Library/CloudStorage/Dropbox" |  "${
+> root}" == "C:/Users/bhara/Dropbox" {
+.         global data "$root/data"
+. 
+.         }
+
+. else {
+.         global data "$root/courts_transcription/odisha/data"
+.         global code "C:\Users\Nutan Satpathy\Documents\GitHub\ai_transcriptio
+> n\code"
+.         
+. }
+
+. 
+. global enumerator_survey "$data/enumerator_survey"
+
+. global daily_digital_survey "$data/daily_digital_survey"
+
+. global admin "$data/admin"
+
+. global out "$data/output"
+
+. global graphout "$out/graphs"
+
+. 
+. 
+. 
+. * for figs
+. grstyle init
+
+. grstyle set plain
+
+. grstyle set color Set1
+
+. grstyle set symbol
+
+. grstyle set lpattern
+
+. grstyle set nogrid
+
+. grstyle linestyle legend none
+
+. grstyle set legend, inside
+
+. grstyle set linewidth 2.4pt: plineplot
+
+. *grstyle set graphsize 10cm 10cm
+. grstyle set margin "1pt 1pt 1pt 1pt": graph
+
+. graph set window fontface "Arial"
+
+. 
+. ****THE END****
+. 
+. 
+. 
+. 
+end of do-file
