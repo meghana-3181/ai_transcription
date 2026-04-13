@@ -1,0 +1,10 @@
+*.log
+
+# Local workflow files (not for collaborators)
+CLAUDE.md
+.mcp.json
+run_sequence.do
+run_preamble.bat
+run_transcription.bat
+sync_graphs_to_overleaf.ps1
+sync_graphs.log
